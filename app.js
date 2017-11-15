@@ -102,7 +102,21 @@ var UIController = (function () {
 
             //Insert html into the DOM - select an existing element in the DOM and then insert the new element next to that:
             document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
+        },
+        clearFields: function() {
+            var fieldsToClear, fieldsToClearArr;
             
+            fieldsToClear = document.querySelectorAll(domStrings.inputDescription + ", " + domStrings.inputValue);   //This will return a list of all the values which we need to convert to an array using the slice method:
+
+            //Access the slice method via the Array function constructor's prototype property and then use the call method to change the this variable:
+            //This will trick the slice method into believing that the list returned from the querySelectorAll method is an array instead of a list:
+            fieldsToClearArr = Array.prototype.slice.call(fieldsToClear);
+
+            //Now we can loop over the array to clear all the fields:
+            //Can use three parameters - the current value, index number, entire array:
+            fieldsToClearArr.forEach(function(current, index, array) {
+                current.value = "";
+            });
 
         },
         getDomStrings: function() {
@@ -148,6 +162,9 @@ var controller = (function (budgetCtrl, UICtrl) {
 
         //Add the new item to the UI - call the UICtrl.addListItem function:
         UICtrl.addListItem(newItem, input.type);
+
+        //Clear the input fields:
+        UICtrl.clearFields();
 
         //Calculate the budget:
 
