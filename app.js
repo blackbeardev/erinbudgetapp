@@ -158,6 +158,10 @@ var UIController = (function () {
             //Insert html into the DOM - select an existing element in the DOM and then insert the new element next to that:
             document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
         },
+        deleteListItem: function(selectorID) {
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
+        },
         clearFields: function() {
             var fieldsToClear, fieldsToClearArr;
             
@@ -273,10 +277,12 @@ var controller = (function (budgetCtrl, UICtrl) {
 
             //delete the item from the data structure:
             budgetCtrl.deleteItem(type, ID);
+
             //delete the item from the UI:
+            UICtrl.deleteListItem(itemID);
 
             //update and show the new budget:
-
+            updateBudget();
         }
 
     }
