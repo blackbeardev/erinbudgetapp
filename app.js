@@ -152,7 +152,8 @@ var UIController = (function () {
         incomeLabel: ".budget__income--value",
         expenseLabel: ".budget__expenses--value",
         percentageLabel: ".budget__expenses--percentage",
-        container: ".container"
+        container: ".container",
+        expensesPercentageLabel: ".item__percentage"
     };
     
 
@@ -219,6 +220,23 @@ var UIController = (function () {
                 document.querySelector(domStrings.percentageLabel).textContent = "---";
             }
         },
+        displayPercentages: function(percentages) {
+           var fields = document.querySelectorAll(domStrings.expensesPercentageLabel);
+
+           var nodeListForEach = function(list, callback) {
+                for(var i = 0; i < list.length; i++) {
+                    callback(list[i], i);
+                }
+           };
+
+           nodeListForEach(fields, function(current, index) {
+                if(percentages[index] > 0) {
+                    current.textContent = percentages[index] + "%";
+                } else {
+                    current.textContent = percentages[index] + "---";
+                }
+           });
+        },
         getDomStrings: function() {
             return domStrings;
         }
@@ -271,7 +289,7 @@ var controller = (function (budgetCtrl, UICtrl) {
         //Read them from the budgetController:
         var percentages = budgetCtrl.getPercentages();
         //Update the UI:
-        console.log(percentages);
+        UICtrl.displayPercentages(percentages);
 
     };
 
